@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&display=swap");
 
 // 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
 @import "../../node_modules/bootstrap/scss/functions";
@@ -106,9 +106,23 @@ p {
   }
 }
 
-
-.kiosk-container{
+.kiosk-container {
   margin: auto;
   box-sizing: border-box;
   width: 95%;
+}
+
+.p-dialog {
+  font-family: "Kanit", sans-serif !important;
+  background-color: #fff !important;
+  border: none !important;
+  .p-dialog-header-icons {
+    display: none !important;
+  }
+  .p-dialog-header {
+    background: none !important;
+  }
+  .p-dialog-content {
+    background: none !important;
+  }
 }

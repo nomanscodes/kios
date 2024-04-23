@@ -2,7 +2,7 @@
   <div class="kiosk-header">
     <div class="kiosk-header__content kiosk-container">
       <h3>{{ heading }}</h3>
-      <div class="cart">
+      <!-- <div class="cart">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="60"
@@ -31,7 +31,9 @@
           </defs>
         </svg>
         <p>$24.00</p>
-      </div>
+      </div> -->
+
+      <KioskCartPanel/>
     </div>
   </div>
 </template>
@@ -51,7 +53,7 @@ const props = defineProps(["heading"]);
   height: 110px;
   background-color: #fff;
   box-shadow: 0px 8px 20px 0px #0000000d;
-  z-index:1000;
+  z-index:500;
   &__content {
     height: 100%;
     display: flex;
@@ -64,26 +66,6 @@ const props = defineProps(["heading"]);
       color: #333333;
     }
   }
-  .cart {
-    display: flex;
-    max-width: 150px;
-    width: 100%;
-    align-items: center;
-    position: relative;
-    p {
-      position: absolute;
-      right: 0%;
-      top: 0;
-      margin-top: -15px;
-      background-color: rebeccapurple;
-      min-width: 104px;
-      max-width: fit-content;
-      height: 43px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
+
 }
 </style>

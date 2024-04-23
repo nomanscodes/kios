@@ -1,7 +1,7 @@
 <template>
   <div class="kiosk-bottom">
     <div class="kiosk-bottom__content kiosk-container">
-      <nuxtLink to="#" class="back-btn">
+      <nuxtLink :to="backLink" class="back-btn">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="23"
@@ -16,12 +16,22 @@
         </svg>
         <span>Back</span>
       </nuxtLink>
-      <nuxtLink to="#" class="next-btn">
+      <nuxtLink v-if="!isCartBtn" to="#" class="next-btn">
         <button>Next</button>
       </nuxtLink>
+      <!-- <div v-else class="cart-btn">
+        <button >Add to cart($24.00)</button>
+      </div> -->
+    <KioskCartPanel v-else :addToCartBtn="true"/>
     </div>
   </div>
 </template>
+
+<script setup>
+import {defineProps} from 'vue'
+
+const props = defineProps(['backLink','isCartBtn'])
+</script>
 
 <style lang="scss" scoped>
 .kiosk-bottom {
@@ -32,7 +42,7 @@
   height: 110px;
   background-color: #fff;
   box-shadow: 0px -5px 46px 0px #0000000d;
-  z-index:1000;
+  z-index: 500;
   &__content {
     height: 100%;
     display: flex;
@@ -52,7 +62,7 @@
     }
     .next-btn {
       button {
-        width: 366px;
+        min-width: 366px;
         height: 102px;
         border-radius: 8px;
         background: #717b56;
@@ -62,6 +72,22 @@
         text-align: center;
         border: none;
         color: #fff;
+        white-space: nowrap;
+      }
+    }
+    .cart-btn{
+      button {
+        min-width: 466px;
+        height: 102px;
+        border-radius: 8px;
+        background: #717b56;
+        font-size: 40px;
+        font-weight: 500;
+        line-height: 50px;
+        text-align: center;
+        border: none;
+        color: #fff;
+        white-space: nowrap;
       }
     }
   }

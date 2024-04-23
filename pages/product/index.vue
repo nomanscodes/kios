@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  <KioskBottom />
+  <KioskBottom :backLink="`/categories/${2}`" :isCartBtn="true" />
 </template>
 
 <script setup>

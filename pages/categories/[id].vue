@@ -15,7 +15,7 @@
       </NuxtLink>
     </div>
   </div>
-  <KioskBottom />
+  <KioskBottom :backLink="'/categories'"/>
 </template>
 
 <script setup>

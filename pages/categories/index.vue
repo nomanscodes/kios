@@ -11,12 +11,11 @@
           <div class="name">
             <p>{{ item?.name }}</p>
           </div>
-       
         </NuxtLink>
       </div>
     </div>
   </div>
-  <KioskBottom />
+  <KioskBottom :backLink="'/'"/>
 </template>
 
 <script setup>
