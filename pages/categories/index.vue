@@ -1,12 +1,32 @@
 <template>
-  <KioskHeader heading="Choose Category"/>
+  <KioskHeader heading="Choose Category" />
   <div class="kiosk-categories">
     <div class="kiosk-categories__content kiosk-container">
       <div class="kiosk-categories__wrapper">
+        <div
+          v-if="loading"
+          v-for="item in loadingItems"
+          class="border-round border-1 surface-border surface-card"
+        >
+          <Skeleton width="100%" height="250px"></Skeleton>
+          <div class="flex justify-content-between mt-3">
+            <Skeleton width="100%" height="2rem"></Skeleton>
+          </div>
+        </div>
+
         <!-- category card  -->
-        <NuxtLink :to="`/categories/${2}`" v-for="item in categories" class="kiosk-category-card">
+        <NuxtLink
+          v-else
+          v-for="item in allCategories"
+          :to="`/categories/${item?.id}`"
+          :key="item?.id"
+          class="kiosk-category-card"
+        >
           <div class="kiosk-category-card__img">
-            <img :src="item.img" />
+            <img
+              :src="`${useAppConfig().apiRoot}${item.image}`"
+              :alt="item?.name"
+            />
           </div>
           <div class="name">
             <p>{{ item?.name }}</p>
@@ -15,55 +35,26 @@
       </div>
     </div>
   </div>
-  <KioskBottom :backLink="'/'"/>
+  <KioskBottom :backLink="'/'" />
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import { ref, onMounted, watchEffect } from "vue";
+import { useMenuStore } from "~~/store/Menu";
 
+const menuStore = useMenuStore();
 
-const categories = ref([
-  {
-    name: 'Smash My Taco',
-    img: '/img/p1.png'
-  },
-  {
-    name: 'Street Tacos',
-    img: '/img/p2.png'
-  },
-  {
-    name: 'Real Burgers',
-    img: '/img/p3.png'
-  },
-  {
-    name: 'Authentic Sushi',
-    img: '/img/p1.png'
-  },
-  {
-    name: 'Gourmet Pizzas',
-    img: '/img/p2.png'
-  },
-  {
-    name: 'Spicy Wings',
-    img: '/img/p1.png'
-  },
-  {
-    name: 'Sizzling Steaks',
-    img: '/img/p2.png'
-  },
-  {
-    name: 'Fresh Salads',
-    img: '/img/p3.png'
-  },
-  {
-    name: 'Delicious Desserts',
-    img: '/img/p2.png'
-  },
-  {
-    name: 'Craft Cocktails',
-    img: '/img/p1.png'
-  },
-]);
+const allCategories = ref([]);
+
+const loading = ref();
+const loadingItems = ref(10);
+
+watchEffect(() => {
+  loading.value = menuStore._isLoading;
+  allCategories.value = menuStore?.categories;
+  console.log("categories:-", allCategories);
+});
+
 </script>
 
 <style lang="scss">

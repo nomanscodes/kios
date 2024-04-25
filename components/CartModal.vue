@@ -315,6 +315,13 @@ export default {
       let options = this.menus.options;
       let product = this.product.id;
 
+      console.log('product id:-', product)
+
+      console.log(
+        "optionsLLLL:-",
+        options.filter((option) => option.items.includes(product))
+      );
+
       return options.filter((option) => option.items.includes(product));
     },
     getTotalPrice() {

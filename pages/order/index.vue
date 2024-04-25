@@ -210,11 +210,7 @@ export default defineNuxtComponent({
   computed: {
     currentCategory() {
       return (
-        this.menus.mappedCategories.find(
-          (category) => category.id === this.activeCategory
-        ) || {
-          products: [],
-        }
+        this.menus.mappedCategories.find( (category) => category.id === this.activeCategory) || {products: [], }
       );
     },
     allCategories() {

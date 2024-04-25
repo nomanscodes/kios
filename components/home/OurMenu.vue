@@ -72,6 +72,8 @@ import { ref, watchEffect, onMounted } from "vue";
 import { useMenuStore } from "~~/store/Menu";
 import { useSettingStore } from "~~/store/Settings";
 import { useCartStore } from "~~/store/Cart";
+
+
 const menus = useMenuStore();
 const settings = useSettingStore();
 const cart = useCartStore();

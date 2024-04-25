@@ -5,6 +5,7 @@ export const useMenuStore = defineStore({
     _categories: [],
     _products: [],
     _options: [],
+    _isLoading: false,
   }),
   getters: {
     menus: (state) => state._menus,
@@ -46,19 +47,26 @@ export const useMenuStore = defineStore({
       this._menus = data.value.payload || [];
     },
     async fetchCategories() {
+      this._isLoading = true;
       const { data, refresh } = await useFetch(
         useAppConfig().apiRoot + "/v1/public/categories"
       );
       this._categories = data.value.payload || [];
+      this._isLoading = false;
       return this._categories.sort((a, b) => {
         return a.order - b.order;
       });
     },
     async fetchProducts() {
+      this._isLoading = true;
+      
       const { data, refresh } = await useFetch(
         useAppConfig().apiRoot + "/v1/public/products"
       );
+
       this._products = data.value.payload || [];
+      this._isLoading = false;
+
       this._products.forEach((element) => {
         element.price =
           typeof element.price == "string"
@@ -77,10 +85,13 @@ export const useMenuStore = defineStore({
       });
     },
     async fetchOptions() {
+
       const { data, refresh } = await useFetch(
         useAppConfig().apiRoot + "/v1/public/options"
       );
+
       this._options = data.value.payload || [];
+      
       this._options.forEach((element) => {
         element.options = JSON.parse(element.options || "[]");
         element.options.forEach((option) => {

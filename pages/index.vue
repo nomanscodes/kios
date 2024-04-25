@@ -41,7 +41,7 @@
   align-items: center;
   justify-content: flex-end;
   &__navigation {
-    z-index: 1000;
+    z-index: 900;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -60,6 +60,7 @@
       color: #222222;
     }
     button {
+    z-index: 900;
       width: 527px;
       height: 120px;
       top: 200px;

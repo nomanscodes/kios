@@ -2,67 +2,73 @@
   <KioskHeader heading="Choose Item" />
   <div class="kiosk-single-category">
     <div class="kiosk-single-category__content kiosk-container">
+      <!-- loading data   -->
+      <div
+        v-if="loading"
+        v-for="item in loadingItems"
+        class="kiosk-skeleton-product-card"
+      >
+        <Skeleton width="100%" height="250px"></Skeleton>
+        <div class="kiosk-skeleton-product-card__info">
+          <Skeleton width="100%" height="2rem"></Skeleton>
+          <Skeleton width="100%" height="2rem"></Skeleton>
+        </div>
+      </div>
       <!-- product card  -->
-      <NuxtLink to="/product" v-for="item in product" class="kiosk-product-card">
+      <NuxtLink
+        v-else
+        v-for="item in products"
+        :key="item?.id"
+        :to="`/product/${item?.id}`"
+        class="kiosk-product-card"
+      >
         <div class="kiosk-product-card__img">
-          <img :src="item.img" />
+          <img :src="`${useAppConfig().apiRoot}${item.image}`" />
         </div>
         <div class="info">
           <p>{{ item?.name }}</p>
-          <span>$07.00</span>
+          <span>
+            {{ useAppConfig().currencySymbol
+            }}{{ item.price.price_delivery }}</span
+          >
         </div>
         <div class="discount">%25</div>
       </NuxtLink>
     </div>
   </div>
-  <KioskBottom :backLink="'/categories'"/>
+  <KioskBottom :backLink="'/categories'" />
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, watchEffect } from "vue";
+import { useMenuStore } from "~~/store/Menu";
 
-const product = ref([
-  {
-    name: "Smash My Taco",
-    img: "/img/p1.png",
-  },
-  {
-    name: "Street Tacos",
-    img: "/img/p2.png",
-  },
-  {
-    name: "Real Burgers",
-    img: "/img/p3.png",
-  },
-  {
-    name: "Authentic Sushi",
-    img: "/img/p1.png",
-  },
-  {
-    name: "Gourmet Pizzas",
-    img: "/img/p2.png",
-  },
-  {
-    name: "Spicy Wings",
-    img: "/img/p1.png",
-  },
-  {
-    name: "Sizzling Steaks",
-    img: "/img/p2.png",
-  },
-  {
-    name: "Fresh Salads",
-    img: "/img/p3.png",
-  },
-  {
-    name: "Delicious Desserts",
-    img: "/img/p2.png",
-  },
-  {
-    name: "Craft Cocktails",
-    img: "/img/p1.png",
-  },
-]);
+const route = useRoute();
+const menus = useMenuStore();
+
+const categoryID = route?.params?.id;
+
+const products = ref([]);
+const allProducts = ref([]);
+const loading = ref();
+const loadingItems = ref(10);
+watchEffect(() => {
+  loading.value = menus._isLoading;
+
+  if (menus && menus.products) {
+    allProducts.value = menus.products;
+
+    console.log("allProducts:", allProducts.value);
+
+    const filteredItems = allProducts.value.filter(
+      (item) => item?.category_id == categoryID
+    );
+
+    console.log("filteredItems:", filteredItems);
+
+    products.value = filteredItems;
+  }
+});
 </script>
 
 <style lang="scss">
@@ -126,11 +132,21 @@ const product = ref([
       font-size: 30px;
       font-weight: 600;
       line-height: 30px;
-      display:Flex;
-      align-items:center;
-      justify-content:center;
-      color:#fff
+      display: Flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
     }
+  }
+}
+
+.kiosk-skeleton-product-card {
+  width: 100%;
+  &__info {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 }
 </style>
